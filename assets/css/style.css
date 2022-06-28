@@ -1,0 +1,22 @@
+* {
+  font-family: monospace;
+  line-height: 1.5;
+  margin: 0;
+  padding: 10px;
+}
+
+.quiz-container {
+  text-align: center;
+  padding: 20px;
+  margin: 0 auto;
+  border: 1px dashed blueviolet;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  background-color: blueviolet;
+  font-weight: 400;
+  font-size: 20px;
+  color: white;
+}
