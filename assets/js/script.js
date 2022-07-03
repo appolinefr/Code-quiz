@@ -16,7 +16,7 @@ let answerEl = document.querySelectorAll("#answer-button");
 let timeEl = document.getElementById("timer");
 let secondsLeft = 60;
 
-let checkLine = document.querySelector("#answer-line");
+let checkLineDiv = document.querySelector("#answer-line");
 let score = 0;
 let questionNumber = 0;
 
@@ -122,11 +122,17 @@ function getQuestion() {
 //loop so that new question is displayed
 
 function questionClick(event) {
+  checkLineDiv.setAttribute("style", "block");
+  setTimeout(function () {
+    checkLineDiv.setAttribute("style", "display: none");
+  }, 1000);
+
   if (questions[questionNumber].correctAnswer == event.target.innerHTML) {
     score = score + 1;
+    checkLineDiv.textContent = "Correct!";
   } else {
     secondsLeft = secondsLeft - 10;
-    alert("Wrong!");
+    checkLineDiv.textContent = "Wrong!";
   }
   //THEN I am presented with another question
   if (questionNumber < questions.length - 1) {
