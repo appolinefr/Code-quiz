@@ -1,113 +1,84 @@
 //variables getting elements from html
-let root = document.querySelector("#quiz-container");
-let welcomeMessage = document.querySelector("#welcome");
-let quizRules = document.querySelector("#quiz-rules");
-let startButton = document.querySelector("#start-quiz");
-let question = document.querySelector("#questions");
-var timeEl = document.querySelector(".timer");
-var secondsLeft = 60;
+//all var holding containers that will be either visible or hidden 
+let quizStart = document.querySelector("#quizStart-container");
+let quizContainer = document.querySelector("#quiz-container");
+let questContainer = document.querySelector("#question-container");
+let answerContainer = document.querySelector("#answer-container");
+let resultContainer = document.querySelector("#result-container");
+let highscoreContainer = document.querySelector("#high-score-container");
 
-// function start quizz
-let firstQuestion = {
-  question1: "Arrays with Javascript can be used to store _ ",
-  answer1: "blabla",
-  answer2: "blibli",
-  answer3: "blublu",
-  correctAnswer: "ahhhhhh",
-};
-let secondtQuestion = {
-  question1: "",
-  answer1: "",
-  answer2: "",
-  answer3: "",
-  correctAnswer: "",
-};
-let thirdQuestion = {
-  question1: "",
-  answer1: "",
-  answer2: "",
-  answer3: "",
-  correctAnswer: "",
-};
-let fourthQuestion = {
-  question1: "",
-  answer1: "",
-  answer2: "",
-  answer3: "",
-  correctAnswer: "",
-};
-let fifthQuestion = {
-  question1: "",
-  answer1: "",
-  answer2: "",
-  answer3: "",
-  correctAnswer: "",
-};
+//all var holding the question and answers
+let questionEl = document.querySelector("#question");
+let answerList = document.querySelector("#answer-list");
+let answerEl = document.querySelectorAll("#answer-button");
 
-//starting quizz and event listener
-start = document.querySelector("#start-quiz");
+//time element 
+let timeEl = document.getElementById("timer");
+let secondsLeft = 60;
+
+let score = 0;
+let questionNumber = 0;
+
+// I need an array of objects that will contain question and multiple choice answer
+//if questions run out go to function quizzEnd
+let questions = [
+  {
+    question: "Arrays with Javascript can be used to store _ ",
+    possibleAnswers: [
+      "Numbers and strings",
+      "Other arrays",
+      "Booleans",
+      "All of the above",
+    ],
+    correctAnswer: "All of the above",
+  },
+  {
+    question: "Commonly used data types DO NOT include:",
+    possibleAnswers: ["Strings", "Booleans", "Numbers", "Alerts"],
+    correctAnswer: "Alerts",
+  },
+  {
+    question:
+      "The condition in an if / else statement is enclosed within ____.",
+    possibleAnswers: [
+      "Square Brackets",
+      "Parentheses",
+      "Curly Brackets",
+      "Quotes",
+    ],
+    correctAnswer: "Parentheses",
+  },
+  {
+    question:
+      "A very useful tool for used during development and debugging for printing content to the debugger is:",
+    possibleAnswers: [
+      "Console log",
+      "Javascript",
+      "Terminal/ Bash",
+      "For loops",
+    ],
+    correctAnswer: "Console log",
+  },
+  {
+    question:
+      "String values must be enclosed within ____ when being assigned to variables.",
+    possibleAnswers: ["Commas", "Curly brackets", "Quotes", "Parenthesis"],
+    correctAnswer: "Quotes",
+  },
+];
+
+//starting quizz: score and questionCounter is set to 0
+let start = document.querySelector("#start-quiz");
 start.addEventListener("click", function () {
-  displayQuestion();
+  score = 0;
+  questionNumber = 0;
   startTimer();
+  getQuestion();
 });
 
-// function display a question
-function displayQuestion() {
-  //setting welcome message + rules + startquiz btn to none once start quiz has been pressed
-  welcomeMessage.textContent = " ";
-  quizRules.textContent = " ";
-  startButton.setAttribute("style", "display: none;");
-
-  //creating h1 element that will hold the questions
-  let h1El = document.createElement("h1");
-
-  h1El.textContent = firstQuestion["question1"];
-  h1El.setAttribute("class", ".questions");
-
-  //creating ul element and li element that will hold the answers
-  let listEl = document.createElement("ul");
-
-  let answer1 = document.createElement("li");
-  let answer2 = document.createElement("li");
-  let answer3 = document.createElement("li");
-  let answer4 = document.createElement("li");
-
-  // setting style for all li element
-  listEl.setAttribute("class", "answers");
-
-  //appending all element to body
-  root.appendChild(h1El);
-  h1El.appendChild(listEl);
-  listEl.appendChild(answer1);
-  listEl.appendChild(answer2);
-  listEl.appendChild(answer3);
-  listEl.appendChild(answer4);
-
-  answer1.textContent = "A. " + firstQuestion["answer1"];
-  answer2.textContent = "B. " + firstQuestion["answer2"];
-  answer3.textContent = "C. " + firstQuestion["answer3"];
-  answer4.textContent = "D. " + firstQuestion["correctAnswer"];
-
-  // function that handles question click nested in function displayquestion?
-  //when answer is clicked,  if correct display correct else display wrong
-  //loop so that new question is displayed
-  listEl.addEventListener("click", function (event) {
-    var clickedElement = event.target;
-
-    // Check if the clicked element was an li and if it was an li and if it was correct answer then proceed to next question.
-    //if the answer was not the correct one then deduct time from timer
-    if (clickedElement.matches("li")) {
-      var state = clickedElement.getAttribute("data-state");
-
-      if (state === firstQuestion["correctAnswer"]) {
-      }
-    }
-  });
-}
-// I need an object that will contain question and multiple choice answer
-//if questions run out go to function quizzEnd
-// answers to display in ul or ol
-
+// function that handles the timer
+//start timer at 60 secs
+//when time runs out function quizzEnd
 function startTimer() {
   // Sets interval in variable
   timeEl.textContent = " ";
@@ -118,22 +89,69 @@ function startTimer() {
     if (secondsLeft === 0) {
       // Stops execution of action at set interval
       clearInterval(timerInterval);
+      quizzEnd();
+    } else if (questionNumber > 5) {
+      clearInterval(timerInterval);
+      quizzEnd();
     }
     // else if {//no more questions}
     // Calls function
-    quizzEnd();
   }, 1000);
 }
-// function that handles the timer
-//start timer at 60 secs
-//if answer is wrong -5 secs
-//else run as normal
-//when time runs out function quizzEnd
+
+// function to display a question
+function getQuestion() {
+  //setting quizStartContainer to none once start quiz has been pressed
+  questionNumber = 1;
+
+  quizStart.setAttribute("style", "display: none;");
+
+  //remove class of hidden of quizcontainer
+  quizContainer.setAttribute("class", "visible");
+
+  //populate h2 with question and populate button el with possible answers
+  questionEl.innerHTML = questions[0].question;
+
+  //populate button with possibleAnswers
+  for (var i = 0; i < answerEl.length; i++) {
+    answerEl[i].innerHTML = questions[0].possibleAnswers[i];
+  }
+
+  // function that handles question click nested in function displayquestion?
+  //when answer is clicked,  if correct display correct else display wrong
+  //loop so that new question is displayed
+
+  answerContainer.addEventListener("click", function (event) {
+    var clickedElement = event.target;
+
+    // Check if the clicked element was an answer button
+    //if it was checked that it was the correct answer and increse points
+    if (
+      clickedElement.matches("answer-button") &&
+      clickedElement === questions[0].correctAnswer
+    ) {
+      score++;
+      alert("correct!");
+    }
+    //if not remove 10 seconds
+    else {
+      secondsLeft -= 10;
+      alert("wrong!");
+    }
+    if (secondsLeft === 0) {
+      // Stops execution of action at set interval
+      clearInterval(timerInterval);
+      quizzEnd();
+    }
+  });
+}
+
 
 function quizzEnd() {}
+
 //function that handles quizz end
 // if questions or quizz run out displays form with initials and score
-//when submitted displays scores
+//when button submit is pressed then it displays scores
 //need a clear button and a go back button
 //need to set scores in local storage
 //when link/button to display score is clicked get item from storage

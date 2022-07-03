@@ -1,30 +1,57 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./assets/css/style.css" />
-    <title>Code Quiz</title>
-  </head>
-  <body>
-    <nav>
-      <!-- <div> need a high score link and a timer section -->
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <title>Code Quiz</title>
+</head>
+<body>
+  <header>
+    <!-- <div> need a high score link and a timer section -->
       <div class="scores" id="scores">High Scores</div>
       <div class="timer" id="timer">Timer</div>
-    </nav>
+   </header>
     <main>
-      <div class="quiz-container" id="quiz-container">
+      <div class="quizStart-container" id="quizStart-container">
         <!-- <h1></h1> need a title and p rules for quiz -->
         <h1 class="welcome" id="welcome">Welcome to Code Quiz</h1>
-        <p class="quiz-rules" id="quiz-rules">Rules</p>
+        <p class="quiz-rules" id="quiz-rules">Try to answer those code-related questions. Please keep in mind that incorrect answers will remove 10 seconds from the timer!</br>Good luck!</p>
         <!-- <button></button> need button to start the quizz -->
         <button class="start-quiz" id="start-quiz">Start quiz</button>
-        <!-- <div id="quiz"></div> quizz div for questions and multiple answers -->
-        <div class="questions" id="questions"></div>
-        <!-- <div id="results"></div> need to display the result after each question -->
-        <div class="result" id="result"></div>
       </div>
-    </main>
-    <script src="./assets/js/script.js"></script>
-  </body>
-</html>
+    </div>
+    <!-- <div id="quiz"></div> quizz div for questions and multiple answers -->
+    <div class="hidden" id="quiz-container">
+      <div class="question-container" id="question-container">
+        <h2 class="question" id="question"></h2>
+      </div>
+      <div class="answer" id="answer-container">
+        <ul class="answer-list" id="answer-list">
+          <li class="li-element" id="li-element"><button class="answer-button" id="answer-button"></button></li>
+          <li class="li-element" id="li-element"><button class="answer-button" id="answer-button"></button></li>
+          <li class="li-element" id="li-element"><button class="answer-button" id="answer-button"></button></li>
+          <li class="li-element" id="li-element"><button class="answer-button" id="answer-button"></button></li>
+        </ul>
+      </div>
+    </div>
+    <!-- <div id="results"></div> need to display the result after each question -->
+    <div class="hidden" id="result-container">
+      <form id="initials-form" class="initials">
+        <p> Enter Initials:
+          <input type="text" name="initials" id="initials" class="text-input" />
+          <button class="btn startend" id="sumbit-score" type="submit">Submit</button> </p>
+        </form>
+      </div>
+      <div class="hidden" id="high-score-container">
+        <h1 class="high-score">High Scores</h1>
+        <ol id="high-score-list" class="score-list"></ol>
+        <div>
+          <button class="" id="go-back">Go back</button>
+          <button class="" id="clear-high-scores">Clear high scores</button>
+        </div>
+      </main>
+      <script src="./assets/js/script.js"></script>
+    </body>
+    </html>
+    
