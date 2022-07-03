@@ -1,5 +1,5 @@
 //variables getting elements from html
-//all var holding containers that will be either visible or hidden 
+//all var holding containers that will be either visible or hidden
 let quizStart = document.querySelector("#quizStart-container");
 let quizContainer = document.querySelector("#quiz-container");
 let questContainer = document.querySelector("#question-container");
@@ -12,10 +12,11 @@ let questionEl = document.querySelector("#question");
 let answerList = document.querySelector("#answer-list");
 let answerEl = document.querySelectorAll("#answer-button");
 
-//time element 
+//time element
 let timeEl = document.getElementById("timer");
 let secondsLeft = 60;
 
+let checkLine = document.querySelector("#answer-line");
 let score = 0;
 let questionNumber = 0;
 
@@ -73,28 +74,25 @@ start.addEventListener("click", function () {
   score = 0;
   questionNumber = 0;
   startTimer();
-  getQuestion();
+  getQuestion(questionNumber); // should I pass the questionNumer as a parameter to the getQuestion???
 });
 
+var timerInterval;
 // function that handles the timer
 //start timer at 60 secs
 //when time runs out function quizzEnd
 function startTimer() {
   // Sets interval in variable
   timeEl.textContent = " ";
-  var timerInterval = setInterval(function () {
+  timerInterval = setInterval(function () {
     secondsLeft--;
     timeEl.textContent = "Timer " + secondsLeft;
 
-    if (secondsLeft === 0) {
+    if (secondsLeft <= 0) {
       // Stops execution of action at set interval
-      clearInterval(timerInterval);
-      quizzEnd();
-    } else if (questionNumber > 5) {
-      clearInterval(timerInterval);
+
       quizzEnd();
     }
-    // else if {//no more questions}
     // Calls function
   }, 1000);
 }
@@ -102,52 +100,46 @@ function startTimer() {
 // function to display a question
 function getQuestion() {
   //setting quizStartContainer to none once start quiz has been pressed
-  questionNumber = 1;
+
+  //question number = 1?
 
   quizStart.setAttribute("style", "display: none;");
 
   //remove class of hidden of quizcontainer
   quizContainer.setAttribute("class", "visible");
 
+  //Should I do a for loop so that each question is called? not sure how to do this with an array of objects and then array inside of object for answers
   //populate h2 with question and populate button el with possible answers
-  questionEl.innerHTML = questions[0].question;
+  questionEl.innerHTML = questions[questionNumber].question;
 
   //populate button with possibleAnswers
   for (var i = 0; i < answerEl.length; i++) {
-    answerEl[i].innerHTML = questions[0].possibleAnswers[i];
+    answerEl[i].innerHTML = questions[questionNumber].possibleAnswers[i];
   }
+}
+// function that handles question click nested in function displayquestion?
+//when answer is clicked,  if correct display correct else display wrong
+//loop so that new question is displayed
 
-  // function that handles question click nested in function displayquestion?
-  //when answer is clicked,  if correct display correct else display wrong
-  //loop so that new question is displayed
-
-  answerContainer.addEventListener("click", function (event) {
-    var clickedElement = event.target;
-
-    // Check if the clicked element was an answer button
-    //if it was checked that it was the correct answer and increse points
-    if (
-      clickedElement.matches("answer-button") &&
-      clickedElement === questions[0].correctAnswer
-    ) {
-      score++;
-      alert("correct!");
-    }
-    //if not remove 10 seconds
-    else {
-      secondsLeft -= 10;
-      alert("wrong!");
-    }
-    if (secondsLeft === 0) {
-      // Stops execution of action at set interval
-      clearInterval(timerInterval);
-      quizzEnd();
-    }
-  });
+function questionClick(event) {
+  if (questions[questionNumber].correctAnswer == event.target.innerHTML) {
+    score = score + 1;
+  } else {
+    secondsLeft = secondsLeft - 10;
+    alert("Wrong!");
+  }
+  //THEN I am presented with another question
+  if (questionNumber < questions.length - 1) {
+    questionNumber++;
+    getQuestion();
+  } else {
+    quizzEnd();
+  }
 }
 
-
-function quizzEnd() {}
+function quizzEnd() {
+  clearInterval(timerInterval);
+}
 
 //function that handles quizz end
 // if questions or quizz run out displays form with initials and score
