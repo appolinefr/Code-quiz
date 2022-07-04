@@ -5,7 +5,15 @@ let quizContainer = document.querySelector("#quiz-container");
 let questContainer = document.querySelector("#question-container");
 let answerContainer = document.querySelector("#answer-container");
 let resultContainer = document.querySelector("#result-container");
-let highscoreContainer = document.querySelector("#high-score-container");
+let highScoreContainer = document.querySelector("#high-score-container");
+
+//all var holding the scores
+let finalScore = document.querySelector("#total-score");
+let submitScore = document.querySelector("#submit-score");
+let initials = document.querySelector("#initials");
+let scoreList = document.querySelector("#high-score-list");
+let goBackBtn = document.querySelector("#go-back");
+let clearScore = document.querySelector("#clear-high-score");
 
 //all var holding the question and answers
 let questionEl = document.querySelector("#question");
@@ -100,9 +108,6 @@ function startTimer() {
 // function to display a question
 function getQuestion() {
   //setting quizStartContainer to none once start quiz has been pressed
-
-  //question number = 1?
-
   quizStart.setAttribute("style", "display: none;");
 
   //remove class of hidden of quizcontainer
@@ -145,8 +150,31 @@ function questionClick(event) {
 
 function quizzEnd() {
   clearInterval(timerInterval);
+  //setting quizStartContainer to none once start quiz has been pressed
+  quizContainer.setAttribute("style", "display: none;");
+
+  highScoreContainer.setAttribute("style", "display: none;");
+  //remove class of hidden of quizcontainer
+  resultContainer.setAttribute("class", "visible");
+
+  finalScore.innerHTML = "Your score is: " + score;
+
+  submitScore.addEventListener("submit", renderHighScores());
+
+  localStorage.setItem("score", score);
+
+  let initials = initials.value;
+
+  localStorage.setItem("initials", initials);
 }
 
+function renderHighScores() {
+  //remove class of hidden of quizcontainer
+
+  resultContainer.setAttribute("class", "hidden");
+
+  highScoreContainer.setAttribute("class", "visible");
+}
 //function that handles quizz end
 // if questions or quizz run out displays form with initials and score
 //when button submit is pressed then it displays scores
