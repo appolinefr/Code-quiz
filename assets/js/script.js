@@ -76,13 +76,13 @@ let questions = [
   },
 ];
 
-//starting quizz: score and questionCounter is set to 0
+//starting quizz: score and questionNumber is set to 0
 let start = document.querySelector("#start-quiz");
 start.addEventListener("click", function () {
   score = 0;
   questionNumber = 0;
   startTimer();
-  getQuestion(questionNumber); // should I pass the questionNumer as a parameter to the getQuestion???
+  getQuestion(questionNumber);
 });
 
 var timerInterval;
@@ -158,9 +158,9 @@ function quizzEnd() {
   resultContainer.setAttribute("class", "visible");
 
   finalScore.innerHTML = "Your score is: " + score;
+}
 
-  submitScore.addEventListener("submit", renderHighScores());
-
+function saveHighScore() {
   localStorage.setItem("score", score);
 
   let initials = initials.value;
