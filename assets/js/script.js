@@ -69,14 +69,16 @@ let questions = [
 
 //starting quizz: score and questionNumber is set to 0
 let start = document.querySelector("#start-quiz");
-start.addEventListener("click", function () {
+start.addEventListener("click", startQuiz);
+
+function startQuiz() {
   score = 0;
   questionNumber = 0;
   quizStart.setAttribute("style", "display: none;");
+  highScoreContainer.setAttribute("style", "display: none;");
   startTimer();
   getQuestion(questionNumber);
-});
-
+}
 var timerInterval;
 // function that handles the timer
 //start timer at 60 secs
@@ -86,7 +88,7 @@ function startTimer() {
   timeEl.textContent = " ";
   timerInterval = setInterval(function () {
     secondsLeft--;
-    timeEl.textContent = "Timer " + secondsLeft;
+    timeEl.textContent = secondsLeft + " Seconds left";
 
     if (secondsLeft <= 0) {
       // Stops execution of action at set interval
@@ -174,7 +176,7 @@ function getHighScore() {
   var lastScore = JSON.parse(localStorage.getItem("userInitials"));
 
   if (lastScore !== null) {
-    initials.innerHTML = lastScore;
+    list.innerHTML = lastScore;
   }
 }
 //remove class of hidden of quizcontainer
@@ -188,11 +190,13 @@ submitScore.addEventListener("click", function (event) {
   event.preventDefault();
   highScoreContainer.setAttribute("style", "display: block;");
   resultContainer.setAttribute("style", "display: none;");
-
   renderHighScore();
 });
 
-goBackBtn.addEventListener("click", function () {
-  highScoreContainer.setAttribute("style", "display: none;");
+goBackBtn.addEventListener("click", function (event) {
+  event.preventDefault;
   quizStart.setAttribute("style", "display: block;");
+  highScoreContainer.setAttribute("style", "display: none;");
+  resultContainer.setAttribute("style", "display: none;");
+  location.reload();
 });
