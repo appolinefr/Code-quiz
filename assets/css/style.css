@@ -11,6 +11,16 @@
   padding: 10px;
 }
 
+/* classes for either displaying content or hidding it  */
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+/* style for the header section (high score and timer) */
 header {
   display: flex;
   justify-content: space-between;
@@ -20,30 +30,56 @@ header {
   color: white;
 }
 
-h2 {
-  text-align: center;
-}
-p {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
+/* style for the start of the quiz with quiz rules */
 .quizStart-container {
   text-align: center;
   padding: 20px;
   margin: 0 auto;
 }
-.hidden {
-  display: none;
-}
-
-.visible {
-  display: block;
-}
 
 .quiz-rules {
   font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
+
+/* style for questions and asnwers */
+h2 {
+  text-align: center;
+}
+
+.answer-list {
+  list-style: none;
+}
+
+.li-element {
+  margin: 0;
+  text-align: center;
+}
+
+/* this is appearing only when a question is cliked to display correct or wrong  */
+.answer-line {
+  text-align: center;
+  font-size: 20px;
+  color: grey;
+  font-style: italic;
+}
+
+/* style for high score section */
+.high-score {
+  text-align: center;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.result,
+.total-score,
+.initials {
+  text-align: center;
+  font-size: 20px;
+}
+
+/* style for all buttons in quiz */
 .answer-button,
 .start-quiz,
 .btnend {
@@ -60,26 +96,4 @@ p {
   cursor: pointer;
   background-color: var(--main);
   color: var(--bg-color);
-}
-
-.answer-list {
-  list-style: none;
-}
-
-.li-element {
-  margin: 0;
-  text-align: center;
-}
-
-.answer-line {
-  text-align: center;
-  font-size: 20px;
-  color: grey;
-  font-style: italic;
-}
-.result,
-.total-score,
-.initials {
-  text-align: center;
-  font-size: 20px;
 }
