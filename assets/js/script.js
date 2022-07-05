@@ -1,4 +1,3 @@
-//variables getting elements from html
 //all var holding containers that will be either visible or hidden
 let quizStart = document.querySelector("#quizStart-container");
 let quizContainer = document.querySelector("#quiz-container");
@@ -14,6 +13,15 @@ let answerEl = document.querySelectorAll("#answer-button");
 let checkLineDiv = document.querySelector("#answer-line");
 let score = 0;
 let questionNumber = 0;
+
+//all var holding the scores
+let finalScore = document.querySelector("#total-score");
+let submitScore = document.querySelector("#submit-score");
+let initialsInput = document.querySelector("#initials");
+let highScoreList = document.querySelector("#high-score-list");
+let goBackBtn = document.querySelector("#go-back");
+let clearScore = document.querySelector("#clear-high-scores");
+let getHighScoreList = document.querySelector("#scores");
 
 //time element
 let timeEl = document.getElementById("timer");
@@ -80,8 +88,7 @@ function startQuiz() {
   getQuestion(questionNumber);
 }
 var timerInterval;
-// function that handles the timer
-//start timer at 60 secs
+
 //when time runs out function quizzEnd
 function startTimer() {
   // Sets interval in variable
@@ -99,7 +106,7 @@ function startTimer() {
   }, 1000);
 }
 
-// function to display a question
+// function to display a question, loop so that new question is displayed
 function getQuestion() {
   quizContainer.setAttribute("class", "visible");
 
@@ -110,9 +117,9 @@ function getQuestion() {
     answerEl[i].innerHTML = questions[questionNumber].possibleAnswers[i];
   }
 }
-// function that handles question click nested in function displayquestion?
+
+// function that handles question click
 //when answer is clicked,  if correct display correct else display wrong
-//loop so that new question is displayed
 
 function questionClick(event) {
   checkLineDiv.setAttribute("style", "block");
@@ -136,14 +143,7 @@ function questionClick(event) {
   }
 }
 
-//all var holding the scores
-let finalScore = document.querySelector("#total-score");
-let submitScore = document.querySelector("#submit-score"); //button to submit score
-let initialsInput = document.querySelector("#initials"); //initials of user
-let highScoreList = document.querySelector("#high-score-list");
-let goBackBtn = document.querySelector("#go-back");
-let clearScore = document.querySelector("#clear-high-score");
-
+//funciton endling the end of quizz, stopping the timer and displaying initials form
 function quizzEnd() {
   clearInterval(timerInterval);
   resultContainer.setAttribute("class", "visible");
@@ -158,6 +158,7 @@ function quizzEnd() {
   finalScore.innerHTML = "Your score is: " + score;
 }
 
+//rendering high score in list and saving them to local storage
 function renderHighScore() {
   var list = document.createElement("li");
   list.textContent = initialsInput.value.trim() + ": " + score;
@@ -167,9 +168,11 @@ function renderHighScore() {
     user: initialsInput.value.trim(),
     userscore: score,
   };
+
   localStorage.setItem("userInitials", JSON.stringify(userInitials));
 }
 
+//getting high score from local storage
 function getHighScore() {
   highScoreContainer.setAttribute("style", "display: block;");
 
@@ -179,13 +182,7 @@ function getHighScore() {
     list.innerHTML = lastScore;
   }
 }
-//remove class of hidden of quizcontainer
-//function that handles quizz end
-// if questions or quizz run out displays form with initials and score
-//when button submit is pressed then it displays scores
-//need a clear button and a go back button
-//need to set scores in local storage
-//when link/button to display score is clicked get item from storage
+//button to submit score and render highScore page
 submitScore.addEventListener("click", function (event) {
   event.preventDefault();
   highScoreContainer.setAttribute("style", "display: block;");
@@ -193,10 +190,27 @@ submitScore.addEventListener("click", function (event) {
   renderHighScore();
 });
 
+//button to restart the quizz
 goBackBtn.addEventListener("click", function (event) {
   event.preventDefault;
   quizStart.setAttribute("style", "display: block;");
   highScoreContainer.setAttribute("style", "display: none;");
   resultContainer.setAttribute("style", "display: none;");
   location.reload();
+});
+
+//eventListener on the high score link
+getHighScoreList.addEventListener("click", function (event) {
+  event.preventDefault();
+  quizStart.setAttribute("style", "display: none;");
+  highScoreContainer.setAttribute("style", "display: block;");
+  resultContainer.setAttribute("style", "display: none;");
+  getHighScore();
+});
+
+//eventListener on clearScore button to clear localStorage
+clearScore.addEventListener("click", function (event) {
+  event.preventDefault();
+  localStorage.clear();
+  highScoreList.innerHTML = "";
 });
