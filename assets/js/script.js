@@ -58,11 +58,11 @@ let questions = [
   },
   {
     question:
-      "A very useful tool for used during development and debugging for printing content to the debugger is:",
+      "A very useful tool used during development and debugging for printing content to the debugger is:",
     possibleAnswers: [
       "Console log",
       "Javascript",
-      "Terminal/ Bash",
+      "Terminal / Bash",
       "For loops",
     ],
     correctAnswer: "Console log",
