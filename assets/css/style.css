@@ -79,20 +79,45 @@ h2 {
   font-size: 20px;
 }
 
+.score-list {
+  font-size: 20px;
+  margin-left: 20px;
+  list-style: none;
+}
+
+.list-container {
+  text-align: center;
+  padding: 20px;
+  margin: 0 auto;
+}
 /* style for all buttons in quiz */
 .answer-button,
 .start-quiz,
-.btnend {
+.btnend,
+.go-back,
+.clear-high-scores {
   width: 200px;
   border-radius: 8px;
   box-shadow: 3px 4px #a0a0a0;
 }
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.go-back,
+.clear-high-scores {
+  margin: 15px;
+}
+
 .btnend {
   margin-top: 25px;
 }
 .answer-button:hover,
 .start-quiz:hover,
-.btnend:hover {
+.btnend:hover,
+.go-back:hover,
+.clear-high-scores:hover {
   cursor: pointer;
   background-color: var(--main);
   color: var(--bg-color);

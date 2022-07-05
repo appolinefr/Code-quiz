@@ -37,22 +37,25 @@
         </div>
       </div>
     </div>
-    <!-- <div id="results"></div> need to display the result after each question -->
+    <!-- <div id="results"></div> need to display the result after each question --> 
     <div class="hidden" id="result-container">
       <h2 class="result" id="result">All done!</h2>
       <p class ="total-score" id="total-score"></p>
       <form id="initials-form" class="initials">
         <p> Enter your initials:
           <input type="text" name="initials" id="initials" class="text-input" />
-          <button class="btnend" id="submit-score"type="submit">Submit</button> </p>
+          <button class="btnend" id="submit-score">Submit</button> </p>
+           <!-- type="submit" -->
         </form>
       </div>
       <div class="hidden" id="high-score-container">
         <h1 class="high-score">High Scores</h1>
-        <ol id="high-score-list" class="score-list"></ol>
-        <div>
-          <button class="" id="go-back">Go back</button>
-          <button class="" id="clear-high-scores">Clear high scores</button>
+        <div class="list-container">
+        <ul id="high-score-list" class="score-list"></ul>
+        </div>
+        <div class="buttons">
+          <button class="go-back" id="go-back">Go back</button>
+          <button class="clear-high-scores" id="clear-high-scores">Clear high scores</button>
         </div>
       </main>
       <script src="./assets/js/script.js"></script>

@@ -7,15 +7,6 @@ let answerContainer = document.querySelector("#answer-container");
 let resultContainer = document.querySelector("#result-container");
 let highScoreContainer = document.querySelector("#high-score-container");
 
-//all var holding the scores
-let finalScore = document.querySelector("#total-score");
-let submitScore = document.querySelector("#submit-score");
-let initialsInput = document.querySelector("#initials");
-let highScoreList = document.querySelector("#high-score-list");
-let goBackBtn = document.querySelector("#go-back");
-let clearScore = document.querySelector("#clear-high-score");
-
-let initials = [];
 //all var holding the question and answers
 let questionEl = document.querySelector("#question");
 let answerList = document.querySelector("#answer-list");
@@ -139,12 +130,21 @@ function questionClick(event) {
     questionNumber++;
     getQuestion();
   } else {
-    quizzEnd(), resultContainer.setAttribute("class", "visible");
+    quizzEnd();
   }
 }
 
+//all var holding the scores
+let finalScore = document.querySelector("#total-score");
+let submitScore = document.querySelector("#submit-score"); //button to submit score
+let initialsInput = document.querySelector("#initials"); //initials of user
+let highScoreList = document.querySelector("#high-score-list");
+let goBackBtn = document.querySelector("#go-back");
+let clearScore = document.querySelector("#clear-high-score");
+
 function quizzEnd() {
   clearInterval(timerInterval);
+  resultContainer.setAttribute("class", "visible");
 
   secondsLeft.innerHTML = "";
   //remove class of hidden of quizcontainer
@@ -154,47 +154,28 @@ function quizzEnd() {
   highScoreContainer.setAttribute("style", "display: none;");
 
   finalScore.innerHTML = "Your score is: " + score;
-
-  renderHighScore();
 }
 
 function renderHighScore() {
-  for (var i = 0; i < initials.length; i++) {
-    var initial = initials[i];
+  var list = document.createElement("li");
+  list.textContent = initialsInput.value.trim() + ": " + score;
+  highScoreList.appendChild(list);
 
-    var list = document.createElement("li");
-    list.textContent = initial;
-    highScoreList.appendChild(list);
-  }
+  var userInitials = {
+    user: initialsInput.value.trim(),
+    userscore: score,
+  };
+  localStorage.setItem("userInitials", JSON.stringify(userInitials));
 }
 
-function saveHighScore() {
-  localStorage.setItem("initials", JSON.stringify(initials));
-}
-
-submitScore.addEventListener("click", function (event) {
-  event.preventDefault();
-  highScoreContainer.setAttribute("style", "display: block;");
-  resultContainer.setAttribute("style", "display: none;");
-
-  initialsContent = initialsInput.value.trim() + ": " + score;
-
-  initials.push(initialsContent);
-
-  saveHighScore();
-  renderHighScore();
-});
-
-function displayHighScore() {
+function getHighScore() {
   highScoreContainer.setAttribute("style", "display: block;");
 
-  var storedInitials = JSON.parse(localStorage.getItem("initials"));
+  var lastScore = JSON.parse(localStorage.getItem("userInitials"));
 
-  if (storedInitials !== null) {
-    initials = storedInitials;
+  if (lastScore !== null) {
+    initials.innerHTML = lastScore;
   }
-
-  renderHighScore();
 }
 //remove class of hidden of quizcontainer
 //function that handles quizz end
@@ -203,3 +184,15 @@ function displayHighScore() {
 //need a clear button and a go back button
 //need to set scores in local storage
 //when link/button to display score is clicked get item from storage
+submitScore.addEventListener("click", function (event) {
+  event.preventDefault();
+  highScoreContainer.setAttribute("style", "display: block;");
+  resultContainer.setAttribute("style", "display: none;");
+
+  renderHighScore();
+});
+
+goBackBtn.addEventListener("click", function () {
+  highScoreContainer.setAttribute("style", "display: none;");
+  quizStart.setAttribute("style", "display: block;");
+});
