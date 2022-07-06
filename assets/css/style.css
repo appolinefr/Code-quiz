@@ -34,7 +34,7 @@ header {
 .quizStart-container {
   text-align: center;
   padding: 20px;
-  margin: 0 auto;
+  margin: 20px;
 }
 
 .quiz-rules {
@@ -46,6 +46,11 @@ header {
 /* style for questions and asnwers */
 h2 {
   text-align: center;
+}
+
+.question-container,
+.result-wrapper {
+  margin: 20px;
 }
 
 .answer-list {
@@ -70,7 +75,7 @@ h2 {
 .list-container {
   text-align: center;
   padding: 20px;
-  margin: 0 auto;
+  margin: 20px;
 }
 
 .result,

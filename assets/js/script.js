@@ -120,7 +120,6 @@ function getQuestion() {
 
 // function that handles question click
 //when answer is clicked,  if correct display correct else display wrong
-
 function questionClick(event) {
   checkLineDiv.setAttribute("style", "block");
   setTimeout(function () {
@@ -143,7 +142,7 @@ function questionClick(event) {
   }
 }
 
-//funciton endling the end of quizz, stopping the timer and displaying initials form
+//function handling the end of quizz, stopping the timer and displaying initials form
 function quizzEnd() {
   clearInterval(timerInterval);
   resultContainer.setAttribute("class", "visible");
@@ -157,8 +156,8 @@ function quizzEnd() {
 
   finalScore.innerHTML = "Your score is: " + score;
 }
-
-function init() {
+//function calling highscores
+function initGetHighScore() {
   // Get stored todos from localStorage
   var oldScores = JSON.parse(localStorage.getItem("storedScores"));
 
@@ -170,7 +169,7 @@ function init() {
   // This is a helper function that will render todos to the DOM
   renderHighScore();
 }
-//rendering high score in list and saving them to local storage
+//rendering high score in list
 function renderHighScore() {
   for (var i = 0; i < storedScores.length; i++) {
     var storedScore = storedScores[i];
@@ -225,4 +224,4 @@ clearScore.addEventListener("click", function (event) {
   highScoreList.innerHTML = "";
 });
 
-init();
+initGetHighScore();
