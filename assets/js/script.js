@@ -22,7 +22,7 @@ let highScoreList = document.querySelector("#high-score-list");
 let goBackBtn = document.querySelector("#go-back");
 let clearScore = document.querySelector("#clear-high-scores");
 let getHighScoreList = document.querySelector("#scores");
-
+let storedScores = [];
 //time element
 let timeEl = document.getElementById("timer");
 let secondsLeft = 60;
@@ -160,34 +160,49 @@ function quizzEnd() {
 
 //rendering high score in list and saving them to local storage
 function renderHighScore() {
-  var list = document.createElement("li");
-  list.textContent = initialsInput.value.trim() + ": " + score;
-  highScoreList.appendChild(list);
+  for (var i = 0; i < storedScores.length; i++) {
+    var storedScore = storedScores[i];
 
-  var userInitials = {
-    user: initialsInput.value.trim(),
-    userscore: score,
-  };
-
-  localStorage.setItem("userInitials", JSON.stringify(userInitials));
+    var list = document.createElement("li");
+    list.textContent = storedScore;
+    list.setAttribute("data-index", i);
+    highScoreList.appendChild(list);
+  }
 }
 
-//getting high score from local storage
+//saving high scores
+function saveHighScores() {
+  localStorage.setItem("storedScores", JSON.stringify(storedScores));
+}
+
+// getting high score from local storage
 function getHighScore() {
   highScoreContainer.setAttribute("style", "display: block;");
+  quizStart.setAttribute("style", "display: none;");
+  resultContainer.setAttribute("style", "display: none;");
 
-  var lastScore = JSON.parse(localStorage.getItem("userInitials"));
+  var lastScore = JSON.parse(localStorage.getItem("storedScores"));
 
   if (lastScore !== null) {
-    list.innerHTML = lastScore;
+    storedScores = lastScore;
   }
+
+  renderHighScore();
 }
 //button to submit score and render highScore page
 submitScore.addEventListener("click", function (event) {
   event.preventDefault();
+
+  userText = initialsInput.value + ": " + score;
+
+  storedScores.push(userText);
+
   highScoreContainer.setAttribute("style", "display: block;");
   resultContainer.setAttribute("style", "display: none;");
+
   renderHighScore();
+
+  saveHighScores();
 });
 
 //button to restart the quizz
