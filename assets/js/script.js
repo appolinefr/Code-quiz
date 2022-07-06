@@ -158,6 +158,18 @@ function quizzEnd() {
   finalScore.innerHTML = "Your score is: " + score;
 }
 
+function init() {
+  // Get stored todos from localStorage
+  var oldScores = JSON.parse(localStorage.getItem("storedScores"));
+
+  // If todos were retrieved from localStorage, update the todos array to it
+  if (oldScores !== null) {
+    storedScores = oldScores;
+  }
+
+  // This is a helper function that will render todos to the DOM
+  renderHighScore();
+}
 //rendering high score in list and saving them to local storage
 function renderHighScore() {
   for (var i = 0; i < storedScores.length; i++) {
@@ -165,7 +177,6 @@ function renderHighScore() {
 
     var list = document.createElement("li");
     list.textContent = storedScore;
-    list.setAttribute("data-index", i);
     highScoreList.appendChild(list);
   }
 }
@@ -175,20 +186,6 @@ function saveHighScores() {
   localStorage.setItem("storedScores", JSON.stringify(storedScores));
 }
 
-// getting high score from local storage
-function getHighScore() {
-  highScoreContainer.setAttribute("style", "display: block;");
-  quizStart.setAttribute("style", "display: none;");
-  resultContainer.setAttribute("style", "display: none;");
-
-  var lastScore = JSON.parse(localStorage.getItem("storedScores"));
-
-  if (lastScore !== null) {
-    storedScores = lastScore;
-  }
-
-  renderHighScore();
-}
 //button to submit score and render highScore page
 submitScore.addEventListener("click", function (event) {
   event.preventDefault();
@@ -200,9 +197,8 @@ submitScore.addEventListener("click", function (event) {
   highScoreContainer.setAttribute("style", "display: block;");
   resultContainer.setAttribute("style", "display: none;");
 
-  renderHighScore();
-
   saveHighScores();
+  renderHighScore();
 });
 
 //button to restart the quizz
@@ -220,7 +216,6 @@ getHighScoreList.addEventListener("click", function (event) {
   quizStart.setAttribute("style", "display: none;");
   highScoreContainer.setAttribute("style", "display: block;");
   resultContainer.setAttribute("style", "display: none;");
-  getHighScore();
 });
 
 //eventListener on clearScore button to clear localStorage
@@ -229,3 +224,5 @@ clearScore.addEventListener("click", function (event) {
   localStorage.clear();
   highScoreList.innerHTML = "";
 });
+
+init();
